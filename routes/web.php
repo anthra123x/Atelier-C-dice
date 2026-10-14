@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::get('/registro', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::redirect('/register', '/registro');
 Route::post('/registro', [AuthController::class, 'register'])->name('register.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 

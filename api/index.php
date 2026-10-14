@@ -51,10 +51,14 @@ if (isset($_ENV['VERCEL']) || isset($_SERVER['VERCEL'])) {
     putenv("VIEW_COMPILED_PATH={$storagePath}/framework/views");
     $_ENV['VIEW_COMPILED_PATH'] = "{$storagePath}/framework/views";
     $_SERVER['VIEW_COMPILED_PATH'] = "{$storagePath}/framework/views";
+
+    // Prevent Symfony Request from interpreting /api/index.php as a subdirectory base URL
+    $_SERVER['SCRIPT_NAME'] = '/index.php';
+    $_SERVER['PHP_SELF'] = '/index.php';
 }
 
 // Normalize Vercel Serverless request URI
-// If Vercel stripped "/api" from incoming requests (e.g., "/v1/...")
+// If incoming request accessed /v1/... directly, normalize to /api/v1/...
 if (isset($_SERVER['REQUEST_URI'])) {
     $requestPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?? '';
     if (str_starts_with($requestPath, '/v1/') || $requestPath === '/v1') {
