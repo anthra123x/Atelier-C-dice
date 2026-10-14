@@ -87,7 +87,11 @@ return [
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DB_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
+            'host' => env('DB_HOST', '127.0.0.1').(
+                ($endpoint = env('DB_ENDPOINT') ?: (str_contains((string) env('DB_HOST', ''), 'neon.tech') ? explode('.', (string) env('DB_HOST'))[0] : null)) && ! str_contains((string) env('DB_HOST', ''), 'options=')
+                    ? ";options='endpoint={$endpoint}'"
+                    : ''
+            ),
             'port' => env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'laravel'),
             'username' => env('DB_USERNAME', 'root'),

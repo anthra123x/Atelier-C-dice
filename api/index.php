@@ -53,4 +53,13 @@ if (isset($_ENV['VERCEL']) || isset($_SERVER['VERCEL'])) {
     $_SERVER['VIEW_COMPILED_PATH'] = "{$storagePath}/framework/views";
 }
 
+// Normalize Vercel Serverless request URI
+// If Vercel stripped "/api" from incoming requests (e.g., "/v1/...")
+if (isset($_SERVER['REQUEST_URI'])) {
+    $requestPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?? '';
+    if (str_starts_with($requestPath, '/v1/') || $requestPath === '/v1') {
+        $_SERVER['REQUEST_URI'] = '/api'.$_SERVER['REQUEST_URI'];
+    }
+}
+
 require __DIR__.'/../public/index.php';
