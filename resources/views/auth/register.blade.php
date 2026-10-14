@@ -185,7 +185,7 @@
 
                     <!-- Fast Social Buttons -->
                     <div class="grid grid-cols-2 gap-2 mb-4">
-                        <button type="button" class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg bg-surface-card hover:bg-surface-container-low border border-border-subtle transition-all text-text-primary font-label text-xs font-semibold shadow-sm">
+                        <button type="button" onclick="showSocialNotice('Google')" class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg bg-surface-card hover:bg-surface-container-low border border-border-subtle transition-all text-text-primary font-label text-xs font-semibold shadow-sm active:scale-95">
                             <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
                                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
                                 <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
@@ -194,7 +194,7 @@
                             </svg>
                             <span>Google</span>
                         </button>
-                        <button type="button" class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg bg-surface-card hover:bg-surface-container-low border border-border-subtle transition-all text-text-primary font-label text-xs font-semibold shadow-sm">
+                        <button type="button" onclick="showSocialNotice('Apple')" class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg bg-surface-card hover:bg-surface-container-low border border-border-subtle transition-all text-text-primary font-label text-xs font-semibold shadow-sm active:scale-95">
                             <svg class="w-3.5 h-3.5 text-text-primary fill-current shrink-0" viewBox="0 0 24 24">
                                 <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.87c.66-.82 1.11-1.96.99-3.11-1 .04-2.18.67-2.88 1.49-.6.69-1.13 1.83-.99 2.95 1.11.09 2.22-.51 2.88-1.33z"></path>
                             </svg>
@@ -423,6 +423,34 @@
                 card.addEventListener('pointercancel', stopDragging);
             });
         })();
+    </script>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <script>
+        // Interactive Toast Notifications
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            const bgClass = type === 'error' ? 'bg-red-600 text-white' : (type === 'success' ? 'bg-emerald-600 text-white' : 'bg-surface-card/95 text-text-primary border border-border-subtle shadow-xl');
+            toast.className = `${bgClass} px-4 py-3 rounded-xl font-label text-xs flex items-center gap-2.5 transform translate-y-2 opacity-0 transition-all duration-300 pointer-events-auto max-w-sm`;
+            const icon = type === 'error' ? 'error' : (type === 'success' ? 'check_circle' : 'info');
+            toast.innerHTML = `<span class="material-symbols-outlined text-[18px] text-accent-indigo shrink-0">${icon}</span><span>${message}</span>`;
+            container.appendChild(toast);
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            });
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        function showSocialNotice(provider) {
+            showToast(`El registro con ${provider} se habilitará próximamente. Por favor completa los campos del formulario.`, 'info');
+        }
     </script>
 </body>
 </html>

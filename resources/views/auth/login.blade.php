@@ -157,7 +157,7 @@
 
                     <!-- Fast Social Buttons -->
                     <div class="grid grid-cols-2 gap-2 mb-5">
-                        <button type="button" class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg bg-surface-card hover:bg-surface-container-low border border-border-subtle/70 transition-colors text-text-primary font-label text-xs font-semibold shadow-sm">
+                        <button type="button" onclick="showSocialNotice('Google')" class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg bg-surface-card hover:bg-surface-container-low border border-border-subtle/70 transition-colors text-text-primary font-label text-xs font-semibold shadow-sm active:scale-95">
                             <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
                                 <path d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z" fill="#4285F4"></path>
                                 <path d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.34 24 12 24z" fill="#34A853"></path>
@@ -166,7 +166,7 @@
                             </svg>
                             <span>Google</span>
                         </button>
-                        <button type="button" class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg bg-surface-card hover:bg-surface-container-low border border-border-subtle/70 transition-colors text-text-primary font-label text-xs font-semibold shadow-sm">
+                        <button type="button" onclick="showSocialNotice('Apple')" class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg bg-surface-card hover:bg-surface-container-low border border-border-subtle/70 transition-colors text-text-primary font-label text-xs font-semibold shadow-sm active:scale-95">
                             <svg class="w-3.5 h-3.5 fill-current shrink-0" viewBox="0 0 24 24">
                                 <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.66-.82 1.11-1.96.99-3.11-1 .04-2.18.67-2.88 1.48-.59.68-1.11 1.79-.97 2.9 1.12.09 2.22-.51 2.86-1.27z"></path>
                             </svg>
@@ -197,7 +197,7 @@
                                 <label class="block font-label text-[11px] uppercase tracking-wider text-text-secondary" for="password">
                                     Contraseña
                                 </label>
-                                <a href="#" class="font-label text-[11px] text-text-secondary hover:text-text-primary transition-colors">¿Olvidaste?</a>
+                                <button type="button" onclick="showForgotNotice()" class="font-label text-[11px] text-text-secondary hover:text-accent-indigo transition-colors">¿Olvidaste?</button>
                             </div>
                             <div class="relative">
                                 <input type="password" id="password" name="password" required
@@ -435,6 +435,38 @@
                 card.addEventListener('pointercancel', stopDragging);
             });
         })();
+    </script>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <script>
+        // Interactive Toast Notifications
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            const bgClass = type === 'error' ? 'bg-red-600 text-white' : (type === 'success' ? 'bg-emerald-600 text-white' : 'bg-surface-card/95 text-text-primary border border-border-subtle shadow-xl');
+            toast.className = `${bgClass} px-4 py-3 rounded-xl font-label text-xs flex items-center gap-2.5 transform translate-y-2 opacity-0 transition-all duration-300 pointer-events-auto max-w-sm`;
+            const icon = type === 'error' ? 'error' : (type === 'success' ? 'check_circle' : 'info');
+            toast.innerHTML = `<span class="material-symbols-outlined text-[18px] text-accent-indigo shrink-0">${icon}</span><span>${message}</span>`;
+            container.appendChild(toast);
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            });
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        function showSocialNotice(provider) {
+            showToast(`El acceso con ${provider} se habilitará próximamente. Puedes ingresar directamente con tu correo electrónico registrado.`, 'info');
+        }
+
+        function showForgotNotice() {
+            showToast('Para restablecer tu contraseña, introduce tu correo de autor o contacta a soporte técnico en Atelier.', 'info');
+        }
     </script>
 </body>
 </html>

@@ -74,18 +74,28 @@
             </div>
         </div>
 
-        <!-- Floating Navigation Shortcuts Pill -->
+        <!-- Floating Navigation Shortcuts & Zoom Controls HUD Pill -->
         <div class="fixed bottom-6 right-6 z-30 pointer-events-auto flex items-center gap-2 bg-surface-card/95 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-border-subtle shadow-lg text-[11px] font-label text-text-secondary select-none">
-            <div class="flex items-center gap-1 text-text-primary font-semibold">
+            <div class="flex items-center bg-surface-container-low rounded-lg p-0.5 border border-border-subtle text-text-secondary">
+                <button type="button" onclick="zoomStep(-0.15)" class="w-6 h-6 flex items-center justify-center hover:bg-surface-card hover:text-text-primary rounded transition-colors" title="Reducir zoom (-)">
+                    <span class="material-symbols-outlined text-[15px]">remove</span>
+                </button>
+                <span id="canvas-hud-zoom-text" class="px-2 font-mono text-[11px] text-text-primary font-semibold min-w-[42px] text-center">100%</span>
+                <button type="button" onclick="zoomStep(0.15)" class="w-6 h-6 flex items-center justify-center hover:bg-surface-card hover:text-text-primary rounded transition-colors" title="Aumentar zoom (+)">
+                    <span class="material-symbols-outlined text-[15px]">add</span>
+                </button>
+            </div>
+            <span class="text-border-strong">·</span>
+            <div class="hidden sm:flex items-center gap-1 text-text-primary font-semibold">
                 <kbd class="px-1.5 py-0.5 rounded bg-surface-container-high border border-border-subtle text-[10px]">Ctrl</kbd>
                 <span>+</span>
                 <span class="material-symbols-outlined text-[14px]">mouse</span>
-                <span>Scroll: Zoom</span>
+                <span>Zoom</span>
             </div>
-            <span class="text-border-strong">·</span>
-            <div class="flex items-center gap-1 text-text-primary font-semibold">
+            <span class="hidden sm:inline text-border-strong">·</span>
+            <div class="hidden sm:flex items-center gap-1 text-text-primary font-semibold">
                 <span class="material-symbols-outlined text-[14px]">pan_tool</span>
-                <span>Clic derecho: Mover tablero</span>
+                <span>Clic der. / Espacio</span>
             </div>
             <span class="text-border-strong">·</span>
             <button type="button" onclick="resetCanvasView()" class="hover:text-accent-indigo text-text-muted transition-colors flex items-center gap-1" title="Restablecer posición inicial">
@@ -312,6 +322,9 @@
     const viewport = document.getElementById('canvas-viewport');
     const surface = document.getElementById('canvas-surface');
 
+    let isSpacePressed = false;
+    let isSpacePanning = false;
+
     function applyTransform() {
         if (surface) {
             surface.style.transform = `translate(${panX}px, ${panY}px) scale(${currentScale})`;
@@ -320,26 +333,53 @@
         if (text) {
             text.textContent = `${Math.round(currentScale * 100)}%`;
         }
+        const hudText = document.getElementById('canvas-hud-zoom-text');
+        if (hudText) {
+            hudText.textContent = `${Math.round(currentScale * 100)}%`;
+        }
         updateConnector();
     }
 
-    function resetCanvasView() {
+    window.zoomStep = function(delta) {
+        const oldScale = currentScale;
+        const newScale = Math.min(Math.max(currentScale + delta, 0.25), 2.5);
+        if (newScale !== oldScale && viewport) {
+            const rect = viewport.getBoundingClientRect();
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            panX = centerX - (centerX - panX) * (newScale / oldScale);
+            panY = centerY - (centerY - panY) * (newScale / oldScale);
+            currentScale = newScale;
+            applyTransform();
+        }
+    };
+
+    window.resetCanvasView = function() {
         currentScale = 1.0;
         panX = 0;
         panY = 0;
         applyTransform();
         showToast('Vista del tablero centrada al 100%', 'info');
-    }
+    };
 
     // Zoom Controls from Top Bar / HUD
-    document.getElementById('zoom-in-btn')?.addEventListener('click', () => {
-        currentScale = Math.min(currentScale + 0.15, 2.5);
-        applyTransform();
+    document.getElementById('zoom-in-btn')?.addEventListener('click', () => window.zoomStep(0.15));
+    document.getElementById('zoom-out-btn')?.addEventListener('click', () => window.zoomStep(-0.15));
+
+    // Spacebar Hand Tool Navigation
+    window.addEventListener('keydown', (e) => {
+        if (e.code === 'Space' && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName) && !isSpacePressed) {
+            isSpacePressed = true;
+            if (viewport && !isRightClickPanning) viewport.style.cursor = 'grab';
+        }
     });
 
-    document.getElementById('zoom-out-btn')?.addEventListener('click', () => {
-        currentScale = Math.max(currentScale - 0.15, 0.25);
-        applyTransform();
+    window.addEventListener('keyup', (e) => {
+        if (e.code === 'Space') {
+            isSpacePressed = false;
+            isSpacePanning = false;
+            if (viewport && !isRightClickPanning) viewport.style.cursor = '';
+        }
     });
 
     // 1. CTRL + SCROLL TO ZOOM IN / ZOOM OUT (Focal to cursor)
@@ -366,21 +406,84 @@
             }
         }, { passive: false });
 
-        // 2. RIGHT-CLICK DRAG TO PAN CANVAS VIEWPORT
+        // 2. RIGHT-CLICK OR SPACE+LEFT-CLICK DRAG TO PAN CANVAS VIEWPORT
         viewport.addEventListener('mousedown', (e) => {
-            if (e.button === 2) {
-                // Ensure click is outside any interactive element, card, or modal
-                if (e.target.closest('.canvas-node, aside, button, input, select, textarea, a, #create-modal, .fixed')) {
+            const isRightClick = e.button === 2;
+            const isSpacePanClick = isSpacePressed && e.button === 0;
+
+            if (isRightClick || isSpacePanClick) {
+                // Ignore if clicked on an interactive control without spacebar
+                if (!isSpacePressed && e.target.closest('.canvas-node, aside, button, input, select, textarea, a, #create-modal, .fixed')) {
                     return;
                 }
 
-                isRightClickPanning = true;
+                if (isSpacePanClick) {
+                    isSpacePanning = true;
+                } else {
+                    isRightClickPanning = true;
+                }
                 didRightClickPan = false;
                 panStartX = e.clientX - panX;
                 panStartY = e.clientY - panY;
                 viewport.style.cursor = 'grabbing';
                 e.preventDefault();
             }
+        });
+
+        // 3. TOUCH SCREEN GESTURES: 1-Finger Pan & 2-Finger Pinch Zoom
+        let touchStartDist = null;
+        let touchStartScale = 1;
+        let touchPanStartX = 0;
+        let touchPanStartY = 0;
+        let isTouchPanning = false;
+
+        viewport.addEventListener('touchstart', (e) => {
+            if (e.target.closest('.canvas-node, aside, button, input, select, textarea, a, #create-modal, .fixed')) {
+                return;
+            }
+
+            if (e.touches.length === 1) {
+                isTouchPanning = true;
+                touchPanStartX = e.touches[0].clientX - panX;
+                touchPanStartY = e.touches[0].clientY - panY;
+            } else if (e.touches.length === 2) {
+                isTouchPanning = false;
+                const dx = e.touches[0].clientX - e.touches[1].clientX;
+                const dy = e.touches[0].clientY - e.touches[1].clientY;
+                touchStartDist = Math.hypot(dx, dy);
+                touchStartScale = currentScale;
+            }
+        }, { passive: true });
+
+        viewport.addEventListener('touchmove', (e) => {
+            if (e.touches.length === 1 && isTouchPanning) {
+                panX = e.touches[0].clientX - touchPanStartX;
+                panY = e.touches[0].clientY - touchPanStartY;
+                applyTransform();
+            } else if (e.touches.length === 2 && touchStartDist) {
+                const dx = e.touches[0].clientX - e.touches[1].clientX;
+                const dy = e.touches[0].clientY - e.touches[1].clientY;
+                const dist = Math.hypot(dx, dy);
+                const factor = dist / touchStartDist;
+                const oldScale = currentScale;
+                const newScale = Math.min(Math.max(touchStartScale * factor, 0.25), 2.5);
+
+                if (newScale !== oldScale) {
+                    const rect = viewport.getBoundingClientRect();
+                    const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left;
+                    const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top;
+
+                    panX = midX - (midX - panX) * (newScale / oldScale);
+                    panY = midY - (midY - panY) * (newScale / oldScale);
+                    currentScale = newScale;
+                    applyTransform();
+                }
+            }
+        }, { passive: true });
+
+        viewport.addEventListener('touchend', (e) => {
+            if (e.touches.length < 2) touchStartDist = null;
+            if (e.touches.length === 0) isTouchPanning = false;
         });
     }
 
@@ -392,7 +495,7 @@
         }
     });
 
-    // 3. Left-Click Drag and Drop Engine for Canvas Nodes
+    // 4. Left-Click & Touch Drag Engine for Canvas Nodes
     let draggedNode = null;
     let dragStartX = 0, dragStartY = 0;
     let nodeStartX = 0, nodeStartY = 0;
@@ -402,7 +505,7 @@
         const handle = node.querySelector('.node-drag-handle') || node;
         
         handle.addEventListener('mousedown', (e) => {
-            if (e.button !== 0) return; // Only primary left-click for nodes
+            if (e.button !== 0 || isSpacePressed) return; // Ignore if hand tool is active
             if (e.target.closest('button, input, select, textarea, a')) return;
             
             draggedNode = node;
@@ -413,11 +516,25 @@
             node.classList.add('scale-[1.02]', 'z-30');
             e.preventDefault();
         });
+
+        // Touch drag support for mobile/tablets
+        handle.addEventListener('touchstart', (e) => {
+            if (e.touches.length !== 1) return;
+            if (e.target.closest('button, input, select, textarea, a')) return;
+
+            draggedNode = node;
+            const touch = e.touches[0];
+            dragStartX = touch.clientX;
+            dragStartY = touch.clientY;
+            nodeStartX = parseFloat(node.style.left) || 0;
+            nodeStartY = parseFloat(node.style.top) || 0;
+            node.classList.add('scale-[1.02]', 'z-30');
+        }, { passive: true });
     });
 
     window.addEventListener('mousemove', (e) => {
-        // Handle canvas panning with right click
-        if (isRightClickPanning) {
+        // Handle canvas panning with right click or space+click
+        if (isRightClickPanning || isSpacePanning) {
             const newPanX = e.clientX - panStartX;
             const newPanY = e.clientY - panStartY;
             if (Math.abs(newPanX - panX) > 2 || Math.abs(newPanY - panY) > 2) {
@@ -448,10 +565,35 @@
         updateConnector();
     });
 
+    // Touch move for dragged node
+    window.addEventListener('touchmove', (e) => {
+        if (!draggedNode || e.touches.length !== 1) return;
+        const touch = e.touches[0];
+        const dx = (touch.clientX - dragStartX) / currentScale;
+        const dy = (touch.clientY - dragStartY) / currentScale;
+
+        const rawX = Math.max(0, nodeStartX + dx);
+        const rawY = Math.max(0, nodeStartY + dy);
+        const snappedX = Math.round(rawX / 24) * 24;
+        const snappedY = Math.round(rawY / 24) * 24;
+
+        draggedNode.style.left = `${snappedX}px`;
+        draggedNode.style.top = `${snappedY}px`;
+        draggedNode.dataset.x = snappedX;
+        draggedNode.dataset.y = snappedY;
+
+        updateConnector();
+    }, { passive: true });
+
     window.addEventListener('mouseup', (e) => {
         if (e.button === 2 && isRightClickPanning) {
             isRightClickPanning = false;
-            if (viewport) viewport.style.cursor = '';
+            if (viewport) viewport.style.cursor = isSpacePressed ? 'grab' : '';
+        }
+
+        if (isSpacePanning && e.button === 0) {
+            isSpacePanning = false;
+            if (viewport) viewport.style.cursor = isSpacePressed ? 'grab' : '';
         }
 
         if (draggedNode) {
@@ -461,6 +603,22 @@
             const finalY = parseFloat(draggedNode.style.top);
 
             // Debounced persistence to Laravel API
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                persistNodePosition(nodeId, finalX, finalY);
+            }, 200);
+
+            draggedNode = null;
+        }
+    });
+
+    window.addEventListener('touchend', (e) => {
+        if (draggedNode && e.touches.length === 0) {
+            draggedNode.classList.remove('scale-[1.02]', 'z-30');
+            const nodeId = draggedNode.dataset.id;
+            const finalX = parseFloat(draggedNode.style.left);
+            const finalY = parseFloat(draggedNode.style.top);
+
             clearTimeout(saveTimeout);
             saveTimeout = setTimeout(() => {
                 persistNodePosition(nodeId, finalX, finalY);
