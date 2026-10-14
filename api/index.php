@@ -55,6 +55,11 @@ if (isset($_ENV['VERCEL']) || isset($_SERVER['VERCEL'])) {
     // Prevent Symfony Request from interpreting /api/index.php as a subdirectory base URL
     $_SERVER['SCRIPT_NAME'] = '/index.php';
     $_SERVER['PHP_SELF'] = '/index.php';
+
+    // Ensure HTTPS is detected by PHP and Laravel
+    $_SERVER['HTTPS'] = 'on';
+    $_SERVER['SERVER_PORT'] = '443';
+    $_SERVER['HTTP_X_FORWARDED_PROTO'] = 'https';
 }
 
 // Normalize Vercel Serverless request URI
