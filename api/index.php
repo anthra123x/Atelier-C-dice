@@ -5,6 +5,10 @@ declare(strict_types=1);
 // Vercel Serverless Entrypoint for Laravel
 
 if (isset($_ENV['VERCEL']) || isset($_SERVER['VERCEL'])) {
+    // Ensure no stale local cache files interfere with serverless runtime
+    @unlink(__DIR__.'/../bootstrap/cache/packages.php');
+    @unlink(__DIR__.'/../bootstrap/cache/services.php');
+
     $storagePath = '/tmp/storage';
     $dirs = [
         $storagePath.'/framework/views',

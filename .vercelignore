@@ -10,3 +10,5 @@ node_modules
 .vscode
 *.log
 storage/*.key
+bootstrap/cache/*.php
+
