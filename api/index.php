@@ -5,9 +5,28 @@ declare(strict_types=1);
 // Vercel Serverless Entrypoint for Laravel
 
 if (isset($_ENV['VERCEL']) || isset($_SERVER['VERCEL'])) {
-    // Ensure no stale local cache files interfere with serverless runtime
-    @unlink(__DIR__.'/../bootstrap/cache/packages.php');
-    @unlink(__DIR__.'/../bootstrap/cache/services.php');
+    $bootstrapCache = '/tmp/bootstrap/cache';
+    if (! is_dir($bootstrapCache)) {
+        mkdir($bootstrapCache, 0755, true);
+    }
+
+    putenv("APP_PACKAGES_CACHE={$bootstrapCache}/packages.php");
+    putenv("APP_SERVICES_CACHE={$bootstrapCache}/services.php");
+    putenv("APP_CONFIG_CACHE={$bootstrapCache}/config.php");
+    putenv("APP_ROUTES_CACHE={$bootstrapCache}/routes.php");
+    putenv("APP_EVENTS_CACHE={$bootstrapCache}/events.php");
+
+    $_ENV['APP_PACKAGES_CACHE'] = "{$bootstrapCache}/packages.php";
+    $_ENV['APP_SERVICES_CACHE'] = "{$bootstrapCache}/services.php";
+    $_ENV['APP_CONFIG_CACHE'] = "{$bootstrapCache}/config.php";
+    $_ENV['APP_ROUTES_CACHE'] = "{$bootstrapCache}/routes.php";
+    $_ENV['APP_EVENTS_CACHE'] = "{$bootstrapCache}/events.php";
+
+    $_SERVER['APP_PACKAGES_CACHE'] = "{$bootstrapCache}/packages.php";
+    $_SERVER['APP_SERVICES_CACHE'] = "{$bootstrapCache}/services.php";
+    $_SERVER['APP_CONFIG_CACHE'] = "{$bootstrapCache}/config.php";
+    $_SERVER['APP_ROUTES_CACHE'] = "{$bootstrapCache}/routes.php";
+    $_SERVER['APP_EVENTS_CACHE'] = "{$bootstrapCache}/events.php";
 
     $storagePath = '/tmp/storage';
     $dirs = [
