@@ -1,0 +1,51 @@
+@import 'tailwindcss';
+
+@source '../views/**/*.blade.php';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme {
+    --font-headline: 'Newsreader', Georgia, serif;
+    --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-label: 'Plus Jakarta Sans', system-ui, sans-serif;
+
+    --color-canvas-bg: #F9F9FB;
+    --color-canvas-dot: #CBD5E1;
+    --color-surface-card: #FFFFFF;
+    --color-accent-indigo: #4F46E5;
+    --color-accent-indigo-hover: #4338CA;
+    --color-accent-terracotta: #EA580C;
+    --color-accent-sage: #10B981;
+    --color-accent-amber: #F59E0B;
+    --color-text-primary: #1A1A1E;
+    --color-text-secondary: #64748B;
+    --color-text-muted: #94A3B8;
+    --color-border-subtle: #E2E8F0;
+    --color-border-strong: #CBD5E1;
+    --color-surface-container-low: #F6F2F8;
+    --color-surface-container: #F0EDF2;
+    --color-surface-container-high: #EAE7ED;
+    --color-primary-container: #4F46E5;
+    --color-on-primary-container: #DAD7FF;
+}
+
+@layer base {
+    body {
+        background-color: var(--color-canvas-bg);
+        color: var(--color-text-primary);
+        font-family: var(--font-body);
+        -webkit-font-smoothing: antialiased;
+    }
+}
+
+/* Custom scrollbars and canvas utilities */
+.canvas-grid {
+    background-image: radial-gradient(#CBD5E1 1.2px, transparent 1.2px);
+    background-size: 24px 24px;
+}
+
+.frosted-glass {
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
