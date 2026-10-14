@@ -46,11 +46,11 @@
     </aside>
 
 
-    <!-- Canvas Pan & Zoom Viewport -->
-    <div id="canvas-viewport" class="relative w-full h-full overflow-auto canvas-grid select-none pl-24 pr-12 pt-6 pb-24">
+    <!-- Canvas Pan & Zoom Viewport (Infinite Spatial Canvas) -->
+    <div id="canvas-viewport" class="relative w-full h-full overflow-hidden canvas-grid select-none cursor-default">
         
         <!-- Top Board Meta HUD -->
-        <div class="max-w-[1440px] mx-auto flex items-center justify-between mb-6 relative z-10 pointer-events-none">
+        <div class="max-w-[1440px] mx-auto flex items-center justify-between mb-6 relative z-10 pointer-events-none pl-24 pr-12 pt-6">
             <div class="flex items-center gap-3 pointer-events-auto">
                 <div class="flex items-center gap-2 bg-surface-card/90 backdrop-blur-md px-4 py-1.5 rounded-full border border-border-subtle shadow-sm font-label text-xs">
                     <span class="w-2 h-2 rounded-full bg-accent-sage animate-pulse"></span>
@@ -74,8 +74,28 @@
             </div>
         </div>
 
+        <!-- Floating Navigation Shortcuts Pill -->
+        <div class="fixed bottom-6 right-6 z-30 pointer-events-auto flex items-center gap-2 bg-surface-card/95 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-border-subtle shadow-lg text-[11px] font-label text-text-secondary select-none">
+            <div class="flex items-center gap-1 text-text-primary font-semibold">
+                <kbd class="px-1.5 py-0.5 rounded bg-surface-container-high border border-border-subtle text-[10px]">Ctrl</kbd>
+                <span>+</span>
+                <span class="material-symbols-outlined text-[14px]">mouse</span>
+                <span>Scroll: Zoom</span>
+            </div>
+            <span class="text-border-strong">·</span>
+            <div class="flex items-center gap-1 text-text-primary font-semibold">
+                <span class="material-symbols-outlined text-[14px]">pan_tool</span>
+                <span>Clic derecho: Mover tablero</span>
+            </div>
+            <span class="text-border-strong">·</span>
+            <button type="button" onclick="resetCanvasView()" class="hover:text-accent-indigo text-text-muted transition-colors flex items-center gap-1" title="Restablecer posición inicial">
+                <span class="material-symbols-outlined text-[15px]">center_focus_strong</span>
+                <span class="text-[10px]">Centrar</span>
+            </button>
+        </div>
+
         <!-- Infinite Positioning Surface -->
-        <div id="canvas-surface" class="relative w-[2800px] h-[1800px] transition-transform origin-top-left" style="transform: scale(1);">
+        <div id="canvas-surface" class="relative w-[3600px] h-[2400px] origin-top-left will-change-transform pl-24 pr-12 pt-6 pb-24" style="transform: translate(0px, 0px) scale(1);">
             
             <!-- SVG Connectors Layer -->
             <svg id="connections-svg" class="absolute inset-0 w-full h-full pointer-events-none z-10" xmlns="http://www.w3.org/2000/svg">
@@ -278,31 +298,101 @@
 
 @push('scripts')
 <script>
-    // Canvas Interactive Drag & Persistence Engine
+    // Canvas Interactive Drag, Zoom & Pan Persistence Engine
     let currentScale = 1.0;
+    let panX = 0;
+    let panY = 0;
+    let isRightClickPanning = false;
+    let panStartX = 0;
+    let panStartY = 0;
+    let didRightClickPan = false;
+
     const boardId = {{ $board->id }};
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    const viewport = document.getElementById('canvas-viewport');
+    const surface = document.getElementById('canvas-surface');
 
-    // Zoom Controls
-    document.getElementById('zoom-in-btn')?.addEventListener('click', () => {
-        currentScale = Math.min(currentScale + 0.15, 2.0);
-        applyScale();
-    });
-
-    document.getElementById('zoom-out-btn')?.addEventListener('click', () => {
-        currentScale = Math.max(currentScale - 0.15, 0.4);
-        applyScale();
-    });
-
-    function applyScale() {
-        const surface = document.getElementById('canvas-surface');
+    function applyTransform() {
+        if (surface) {
+            surface.style.transform = `translate(${panX}px, ${panY}px) scale(${currentScale})`;
+        }
         const text = document.getElementById('zoom-val-text');
-        if (surface) surface.style.transform = `scale(${currentScale})`;
-        if (text) text.textContent = `${Math.round(currentScale * 100)}%`;
+        if (text) {
+            text.textContent = `${Math.round(currentScale * 100)}%`;
+        }
         updateConnector();
     }
 
-    // Drag and Drop Engine
+    function resetCanvasView() {
+        currentScale = 1.0;
+        panX = 0;
+        panY = 0;
+        applyTransform();
+        showToast('Vista del tablero centrada al 100%', 'info');
+    }
+
+    // Zoom Controls from Top Bar / HUD
+    document.getElementById('zoom-in-btn')?.addEventListener('click', () => {
+        currentScale = Math.min(currentScale + 0.15, 2.5);
+        applyTransform();
+    });
+
+    document.getElementById('zoom-out-btn')?.addEventListener('click', () => {
+        currentScale = Math.max(currentScale - 0.15, 0.25);
+        applyTransform();
+    });
+
+    // 1. CTRL + SCROLL TO ZOOM IN / ZOOM OUT (Focal to cursor)
+    if (viewport) {
+        viewport.addEventListener('wheel', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                e.preventDefault();
+
+                const zoomFactor = e.deltaY < 0 ? 1.08 : 0.92;
+                const oldScale = currentScale;
+                const newScale = Math.min(Math.max(currentScale * zoomFactor, 0.25), 2.5);
+
+                if (newScale !== oldScale) {
+                    const rect = viewport.getBoundingClientRect();
+                    const mouseX = e.clientX - rect.left;
+                    const mouseY = e.clientY - rect.top;
+
+                    panX = mouseX - (mouseX - panX) * (newScale / oldScale);
+                    panY = mouseY - (mouseY - panY) * (newScale / oldScale);
+                    currentScale = newScale;
+
+                    applyTransform();
+                }
+            }
+        }, { passive: false });
+
+        // 2. RIGHT-CLICK DRAG TO PAN CANVAS VIEWPORT
+        viewport.addEventListener('mousedown', (e) => {
+            if (e.button === 2) {
+                // Ensure click is outside any interactive element, card, or modal
+                if (e.target.closest('.canvas-node, aside, button, input, select, textarea, a, #create-modal, .fixed')) {
+                    return;
+                }
+
+                isRightClickPanning = true;
+                didRightClickPan = false;
+                panStartX = e.clientX - panX;
+                panStartY = e.clientY - panY;
+                viewport.style.cursor = 'grabbing';
+                e.preventDefault();
+            }
+        });
+    }
+
+    // Suppress context menu when right clicking on canvas
+    window.addEventListener('contextmenu', (e) => {
+        if (isRightClickPanning || didRightClickPan || e.target.closest('#canvas-viewport')) {
+            e.preventDefault();
+            didRightClickPan = false;
+        }
+    });
+
+    // 3. Left-Click Drag and Drop Engine for Canvas Nodes
     let draggedNode = null;
     let dragStartX = 0, dragStartY = 0;
     let nodeStartX = 0, nodeStartY = 0;
@@ -312,7 +402,9 @@
         const handle = node.querySelector('.node-drag-handle') || node;
         
         handle.addEventListener('mousedown', (e) => {
-            if (e.target.closest('button')) return;
+            if (e.button !== 0) return; // Only primary left-click for nodes
+            if (e.target.closest('button, input, select, textarea, a')) return;
+            
             draggedNode = node;
             dragStartX = e.clientX;
             dragStartY = e.clientY;
@@ -324,11 +416,25 @@
     });
 
     window.addEventListener('mousemove', (e) => {
+        // Handle canvas panning with right click
+        if (isRightClickPanning) {
+            const newPanX = e.clientX - panStartX;
+            const newPanY = e.clientY - panStartY;
+            if (Math.abs(newPanX - panX) > 2 || Math.abs(newPanY - panY) > 2) {
+                didRightClickPan = true;
+            }
+            panX = newPanX;
+            panY = newPanY;
+            applyTransform();
+            return;
+        }
+
+        // Handle card movement
         if (!draggedNode) return;
         const dx = (e.clientX - dragStartX) / currentScale;
         const dy = (e.clientY - dragStartY) / currentScale;
         
-        // Snap to 12px or 24px grid
+        // Snap to 24px grid
         const rawX = Math.max(0, nodeStartX + dx);
         const rawY = Math.max(0, nodeStartY + dy);
         const snappedX = Math.round(rawX / 24) * 24;
@@ -342,20 +448,26 @@
         updateConnector();
     });
 
-    window.addEventListener('mouseup', () => {
-        if (!draggedNode) return;
-        draggedNode.classList.remove('scale-[1.02]', 'z-30');
-        const nodeId = draggedNode.dataset.id;
-        const finalX = parseFloat(draggedNode.style.left);
-        const finalY = parseFloat(draggedNode.style.top);
+    window.addEventListener('mouseup', (e) => {
+        if (e.button === 2 && isRightClickPanning) {
+            isRightClickPanning = false;
+            if (viewport) viewport.style.cursor = '';
+        }
 
-        // Debounced persistence to Laravel API
-        clearTimeout(saveTimeout);
-        saveTimeout = setTimeout(() => {
-            persistNodePosition(nodeId, finalX, finalY);
-        }, 200);
+        if (draggedNode) {
+            draggedNode.classList.remove('scale-[1.02]', 'z-30');
+            const nodeId = draggedNode.dataset.id;
+            const finalX = parseFloat(draggedNode.style.left);
+            const finalY = parseFloat(draggedNode.style.top);
 
-        draggedNode = null;
+            // Debounced persistence to Laravel API
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                persistNodePosition(nodeId, finalX, finalY);
+            }, 200);
+
+            draggedNode = null;
+        }
     });
 
     // API Call to persist node position

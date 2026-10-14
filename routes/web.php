@@ -13,7 +13,13 @@ Route::post('/registro', [AuthController::class, 'register'])->name('register.po
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Atelier Códice Creative Workspace Routes
-Route::get('/', [StudioController::class, 'canvas'])->name('studio.index');
+Route::get('/', function () {
+    if (Auth::check()) {
+        return redirect()->route('studio.canvas');
+    }
+
+    return redirect()->route('login');
+})->name('studio.index');
 Route::get('/lienzo', [StudioController::class, 'canvas'])->name('studio.canvas');
 Route::get('/personajes', [StudioController::class, 'characters'])->name('studio.characters');
 Route::get('/mapas', [StudioController::class, 'maps'])->name('studio.maps');
