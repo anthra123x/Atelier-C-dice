@@ -55,52 +55,14 @@
 </head>
 <body class="min-h-full bg-canvas-bg font-body text-text-primary antialiased flex flex-col justify-between selection:bg-accent-indigo selection:text-white overflow-x-hidden">
 
-    <!-- Fixed Top Header Navigation -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-surface-card/85 backdrop-blur-xl border-b border-border-subtle/50 shadow-[0_1px_8px_rgba(0,0,0,0.03)]">
-        <div class="h-16 w-full px-6 sm:px-8 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <a href="{{ route('studio.canvas') }}" class="flex items-center gap-2 group">
-                    <div class="w-8 h-8 rounded-lg bg-accent-indigo text-white flex items-center justify-center font-headline font-bold text-lg shadow-sm group-hover:scale-105 transition-transform">
-                        C
-                    </div>
-                    <span class="font-headline text-xl text-text-primary tracking-tight font-medium">Atelier</span>
-                    <span class="font-label text-[10px] uppercase tracking-widest text-text-secondary px-2 py-0.5 rounded bg-surface-container font-semibold">Canvas</span>
-                </a>
-            </div>
-
-            <nav class="flex items-center gap-6">
-                <span class="font-label text-xs text-text-secondary font-medium">ES</span>
-                <a href="{{ route('studio.canvas') }}" class="font-label text-xs text-text-secondary hover:text-text-primary transition-colors">Explorar Lienzo</a>
-                <a href="{{ route('register') }}" class="font-label text-xs font-semibold px-3 py-1.5 rounded-full bg-text-primary text-white hover:bg-black transition-colors">Crear Cuenta</a>
-            </nav>
-        </div>
-    </header>
-
     <!-- UNIFIED SPATIAL CANVAS WORKSPACE (Stitch Design) -->
-    <main class="w-full flex-1 pt-16 relative overflow-hidden select-none">
+    <main class="w-full flex-1 relative overflow-hidden select-none">
         <div class="relative w-full min-h-[calc(100vh-4rem)] canvas-dots-bg" id="spatial-canvas-viewport">
             
             <!-- Atmospheric Ambient Glow Blobs across the canvas -->
             <div class="absolute -top-24 left-1/4 w-[600px] h-[600px] rounded-full bg-accent-indigo/5 blur-[120px] pointer-events-none"></div>
             <div class="absolute bottom-10 right-10 w-[550px] h-[550px] rounded-full bg-accent-terracotta/8 blur-[130px] pointer-events-none"></div>
             <div class="absolute top-1/2 left-10 w-[400px] h-[400px] rounded-full bg-accent-sage/6 blur-[100px] pointer-events-none"></div>
-
-            <!-- Canvas HUD Floating Control Bar -->
-            <div class="absolute top-6 left-6 right-6 z-30 flex flex-wrap items-center justify-between gap-3 pointer-events-none">
-                <div class="flex items-center gap-3 pointer-events-auto">
-                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-card/85 backdrop-blur-md border border-border-subtle/60 shadow-sm">
-                        <span class="w-1.5 h-1.5 rounded-full bg-accent-indigo animate-pulse"></span>
-                        <span class="font-label text-xs text-text-primary tracking-tight font-medium">Crónicas de Neón</span>
-                        <span class="text-text-muted text-[11px]">· 14 nodos</span>
-                    </div>
-                </div>
-                <div class="flex items-center gap-2 pointer-events-auto">
-                    <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-card/85 backdrop-blur-md text-text-secondary font-label text-xs border border-border-subtle/60 shadow-sm">
-                        <span class="material-symbols-outlined text-[15px]">zoom_in</span>
-                        <span>85% Escala</span>
-                    </div>
-                </div>
-            </div>
 
             <!-- Decorative Canvas Connecting Line -->
             <svg class="absolute inset-0 w-full h-full pointer-events-none z-0" xmlns="http://www.w3.org/2000/svg">
@@ -118,7 +80,7 @@
             </svg>
 
             <!-- CANVAS WORKSPACE CONTENT (Primary Floating Login Card + Draggable Canvas Cards) -->
-            <div class="relative z-10 w-full min-h-[calc(100vh-4rem)] p-4 sm:p-8 lg:p-12 pt-20 sm:pt-24 flex flex-col xl:flex-row items-center xl:items-start justify-center xl:justify-between gap-8 max-w-7xl mx-auto">
+            <div class="relative z-10 w-full min-h-screen p-4 sm:p-8 lg:p-12 py-8 sm:py-12 flex flex-col xl:flex-row items-center xl:items-start justify-center xl:justify-between gap-8 max-w-7xl mx-auto">
                 
                 <!-- PRIMARY FLOATING WORKSPACE LOGIN PANEL (Stitch Design) -->
                 <div class="draggable-card w-full max-w-[480px] bg-surface-card/95 backdrop-blur-xl rounded-2xl p-6 sm:p-8 shadow-[0_20px_50px_rgba(27,27,31,0.08),0_1px_3px_rgba(0,0,0,0.05)] border border-border-subtle/80 transition-shadow duration-200" id="login-window-card" style="position: relative; z-index: 25;">

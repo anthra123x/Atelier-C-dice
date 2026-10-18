@@ -48,40 +48,13 @@
 </head>
 <body class="min-h-full bg-canvas-bg font-body text-text-primary antialiased flex flex-col justify-between selection:bg-accent-indigo selection:text-white overflow-x-hidden">
 
-    <!-- Fixed Top Header Navigation -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-surface-card/85 backdrop-blur-xl border-b border-border-subtle/50 shadow-[0_1px_8px_rgba(0,0,0,0.03)]">
-        <div class="h-16 w-full px-6 sm:px-8 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <a href="{{ route('studio.canvas') }}" class="flex items-center gap-2 group">
-                    <div class="w-8 h-8 rounded-lg bg-text-primary text-white flex items-center justify-center font-headline font-bold text-lg shadow-sm group-hover:scale-105 transition-transform">
-                        C
-                    </div>
-                    <span class="font-headline text-xl text-text-primary tracking-tight font-medium">Atelier</span>
-                    <span class="font-label text-[10px] uppercase tracking-widest text-text-secondary px-2 py-0.5 rounded bg-surface-container font-semibold">Canvas</span>
-                </a>
-            </div>
-
-            <nav class="flex items-center gap-6">
-                <span class="font-label text-xs text-text-secondary font-medium">ES</span>
-                <a href="{{ route('studio.canvas') }}" class="font-label text-xs text-text-secondary hover:text-text-primary transition-colors">Explorar</a>
-                <a href="{{ route('login') }}" class="font-label text-xs font-semibold px-4 py-1.5 rounded-full border border-border-strong hover:bg-surface-container transition-colors">Iniciar Sesión</a>
-            </nav>
-        </div>
-    </header>
-
     <!-- UNIFIED SPATIAL CANVAS WORKSPACE (Stitch Design for Register) -->
-    <main class="w-full flex-1 pt-16 relative overflow-hidden select-none">
-        <div class="relative w-full min-h-[calc(100vh-4rem)] canvas-dots-bg flex flex-col items-center justify-center p-4 sm:p-8" id="spatial-canvas-viewport">
+    <main class="w-full flex-1 relative overflow-hidden select-none">
+        <div class="relative w-full min-h-screen canvas-dots-bg flex flex-col items-center justify-center p-4 sm:p-8 py-8 sm:py-12" id="spatial-canvas-viewport">
             
             <!-- Atmospheric Glow Blobs -->
             <div class="absolute -top-24 right-1/4 w-[600px] h-[600px] rounded-full bg-accent-sage/6 blur-[120px] pointer-events-none"></div>
             <div class="absolute bottom-10 left-10 w-[550px] h-[550px] rounded-full bg-accent-terracotta/8 blur-[130px] pointer-events-none"></div>
-
-            <!-- Top Interactive Banner -->
-            <div class="absolute top-4 z-20 hidden md:inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface-card/85 backdrop-blur-md border border-border-subtle shadow-sm text-xs font-label text-text-secondary">
-                <span class="text-accent-indigo">✦</span>
-                <span>Lienzo libre interactivo — Haz clic y arrastra cualquier elemento de inspiración</span>
-            </div>
 
             <!-- FLOATING BACKGROUND INSPIRATION CARDS (Stitch Layout) -->
             <!-- Card 1: Fichas de personajes (Top Left) -->
