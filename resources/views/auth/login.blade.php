@@ -189,7 +189,7 @@
 
                         <div class="flex items-center pt-0.5">
                             <label class="flex items-center gap-2 cursor-pointer select-none">
-                                <input type="checkbox" name="remember" checked class="w-3.5 h-3.5 rounded text-accent-indigo focus:ring-0 bg-surface-container border border-border-subtle cursor-pointer">
+                                <input type="checkbox" name="remember" value="1" checked class="w-3.5 h-3.5 rounded text-accent-indigo focus:ring-0 bg-surface-container border border-border-subtle cursor-pointer">
                                 <span class="font-body text-xs text-text-secondary">Mantener sesión iniciada</span>
                             </label>
                         </div>

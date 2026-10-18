@@ -42,6 +42,25 @@ class AuthWorkflowTest extends TestCase
         $this->assertAuthenticatedAs($user);
     }
 
+    public function test_user_can_login_with_browser_remember_checkbox(): void
+    {
+        $uniqueEmail = 'test_remember_'.Str::random(6).'@example.com';
+        $user = User::query()->create([
+            'name' => 'Tester Remember',
+            'email' => $uniqueEmail,
+            'password' => Hash::make('password123'),
+        ]);
+
+        $response = $this->post(route('login.post'), [
+            'email' => $uniqueEmail,
+            'password' => 'password123',
+            'remember' => 'on',
+        ]);
+
+        $response->assertRedirect(route('studio.canvas'));
+        $this->assertAuthenticatedAs($user);
+    }
+
     public function test_user_cannot_login_with_invalid_password(): void
     {
         $uniqueEmail = 'test_fail_'.Str::random(6).'@example.com';
