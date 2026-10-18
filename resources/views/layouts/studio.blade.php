@@ -25,7 +25,7 @@
                     <div class="w-8 h-8 rounded-lg bg-accent-indigo text-white flex items-center justify-center font-headline font-bold text-lg shadow-sm group-hover:scale-105 transition-transform">
                         C
                     </div>
-                    <span class="font-label font-bold text-text-primary tracking-tight text-base">Atelier <span class="text-accent-indigo font-normal">Códice</span></span>
+                    <span class="font-label font-bold text-text-primary tracking-tight text-base">Estudio <span class="text-accent-indigo font-normal">Códice</span></span>
                 </a>
                 <span class="text-border-strong select-none">/</span>
                 <div class="flex items-center gap-1.5 text-text-secondary font-label text-xs bg-surface-container-low px-2.5 py-1 rounded-lg border border-border-subtle">

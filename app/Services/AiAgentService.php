@@ -36,7 +36,7 @@ class AiAgentService
                 'Authorization' => 'Bearer '.$this->apiKey,
                 'Content-Type' => 'application/json',
                 'HTTP-Referer' => config('app.url', 'http://localhost:8000'),
-                'X-Title' => 'Estudio Codice Atelier',
+                'X-Title' => 'Estudio Codice',
             ])->timeout(30)->post($this->baseUrl.'/chat/completions', [
                 'model' => $this->model,
                 'messages' => [

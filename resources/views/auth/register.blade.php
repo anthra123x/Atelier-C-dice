@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Registro — Empieza a construir tus universos · Atelier Canvas</title>
+    <title>Registro — Empieza a construir tus universos · Estudio Códice</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -129,8 +129,8 @@
                     <!-- Card Drag Header -->
                     <div class="flex items-center justify-between pb-3 mb-5 border-b border-border-subtle/50">
                         <div class="flex items-center gap-2">
-                            <span class="font-headline text-[17px] text-text-primary font-medium tracking-tight">Atelier</span>
-                            <span class="text-text-muted text-[11px] font-mono tracking-wider uppercase">Canvas</span>
+                            <span class="font-headline text-[17px] text-text-primary font-medium tracking-tight">Estudio</span>
+                            <span class="text-accent-indigo font-normal tracking-wide">Códice</span>
                         </div>
                         <div class="flex items-center gap-2 text-text-muted text-[11px] font-label">
                             <span class="material-symbols-outlined text-[14px]">drag_indicator</span>
@@ -229,7 +229,7 @@
                         </div>
 
                         <button type="submit" class="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-lg bg-text-primary hover:bg-black text-white font-label text-xs font-semibold tracking-wide shadow-md transition-all duration-150 active:scale-[0.99] mt-2">
-                            <span>Crear mi Atelier</span>
+                            <span>Crear mi Estudio Códice</span>
                             <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
                         </button>
                     </form>
@@ -249,7 +249,7 @@
     <!-- Global Footer -->
     <footer class="w-full bg-surface-card/80 backdrop-blur-sm py-4 border-t border-border-subtle/50 relative z-30">
         <div class="w-full px-6 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-text-muted font-body text-xs">
-            <span>© Atelier Canvas. The Spatial Canvas for Worldbuilders.</span>
+            <span>© Estudio Códice. The Spatial Canvas for Worldbuilders.</span>
             <div class="flex items-center gap-6">
                 <a href="#" class="hover:text-text-primary transition-colors">Privacy Policy</a>
                 <a href="#" class="hover:text-text-primary transition-colors">Terms of Service</a>

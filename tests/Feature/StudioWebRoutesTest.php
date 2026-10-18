@@ -10,7 +10,7 @@ class StudioWebRoutesTest extends TestCase
     {
         $response = $this->get(route('studio.canvas'));
         $response->assertOk()
-            ->assertSee('Atelier')
+            ->assertSee('Estudio')
             ->assertSee('Códice')
             ->assertSee('Lienzo Creativo');
     }
