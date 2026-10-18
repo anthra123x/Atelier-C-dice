@@ -1,6 +1,6 @@
 @extends('layouts.studio')
 
-@section('title', 'Lienzo Creativo - Estudio Códice')
+@section('title', 'Lienzo Creativo - Estudio Cóice')
 @section('view_label', $board->title . ' · ' . ($board->act ?? 'Acto I'))
 
 @section('content')
@@ -39,9 +39,9 @@
             <span class="material-symbols-outlined text-[22px]">add_circle</span>
         </button>
 
-        <button onclick="toggleCodiceAi()" class="w-10 h-10 rounded-xl flex items-center justify-center bg-gradient-to-tr from-accent-indigo to-purple-600 text-white hover:scale-105 active:scale-95 shadow-sm transition-all group relative" title="Códice AI">
+        <button onclick="toggleCodiceAi()" class="w-10 h-10 rounded-xl flex items-center justify-center bg-gradient-to-tr from-accent-indigo to-purple-600 text-white hover:scale-105 active:scale-95 shadow-sm transition-all group relative" title="Cóice AI">
             <span class="material-symbols-outlined text-[20px]">psychology</span>
-            <span class="absolute left-full ml-3 px-2 py-1 rounded-md bg-text-primary text-white text-[11px] font-label whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity shadow-md z-40">Códice AI</span>
+            <span class="absolute left-full ml-3 px-2 py-1 rounded-md bg-text-primary text-white text-[11px] font-label whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity shadow-md z-40">Cóice AI</span>
         </button>
     </aside>
 

@@ -1,6 +1,6 @@
 @extends('layouts.studio')
 
-@section('title', 'Fichas de Personajes y Moodboards - Estudio Códice')
+@section('title', 'Fichas de Personajes y Moodboards - Estudio Cóice')
 @section('view_label', 'Fichas de Personajes')
 
 @section('content')

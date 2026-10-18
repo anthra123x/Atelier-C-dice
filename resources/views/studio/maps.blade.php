@@ -1,6 +1,6 @@
 @extends('layouts.studio')
 
-@section('title', 'Mapas y Locaciones con Point Marks - Estudio Códice')
+@section('title', 'Mapas y Locaciones con Point Marks - Estudio Cóice')
 @section('view_label', 'Cartografía & Point Marks')
 
 @section('content')

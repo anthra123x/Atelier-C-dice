@@ -20,7 +20,7 @@ use Illuminate\Support\Str;
 class AuthController extends Controller
 {
     /**
-     * Show the Estudio Códice login form.
+     * Show the Estudio Cóice login form.
      */
     public function showLoginForm(): View|RedirectResponse
     {
@@ -42,7 +42,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
-            return redirect()->intended(route('studio.canvas'))->with('success', '¡Bienvenido de vuelta a tu Estudio Códice!');
+            return redirect()->intended(route('studio.canvas'))->with('success', '¡Bienvenido de vuelta a tu Estudio Cóice!');
         }
 
         return back()->withErrors([
@@ -51,7 +51,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Show the Estudio Códice register form.
+     * Show the Estudio Cóice register form.
      */
     public function showRegisterForm(): View|RedirectResponse
     {
@@ -84,7 +84,7 @@ class AuthController extends Controller
             'tagline' => 'Compendio creativo personal y cartografía narrativa.',
             'description' => 'Espacio de trabajo y worldbuilding inicial.',
             'settings' => [
-                'theme' => 'Estudio Códice',
+                'theme' => 'Estudio Cóice',
                 'creative_role' => $validated['creative_role'] ?? 'Autor / Diseñador',
             ],
         ]);
@@ -104,13 +104,13 @@ class AuthController extends Controller
         CanvasNode::query()->create([
             'board_id' => $board->id,
             'type' => 'note',
-            'title' => '¡Bienvenido a tu Estudio Códice!',
+            'title' => '¡Bienvenido a tu Estudio Cóice!',
             'pos_x' => 120,
             'pos_y' => 100,
             'width' => 360,
             'data' => [
                 'category' => 'Inicio',
-                'body' => 'Este es tu lienzo creativo infinito. Puedes añadir notas, personajes, locaciones y conexiones vectoriales. El Asistente Códice AI está listo para ayudarte a crear.',
+                'body' => 'Este es tu lienzo creativo infinito. Puedes añadir notas, personajes, locaciones y conexiones vectoriales. El Asistente Cóice AI está listo para ayudarte a crear.',
                 'tags' => ['Estudio', 'Bienvenida'],
             ],
         ]);
@@ -128,7 +128,7 @@ class AuthController extends Controller
         Auth::login($user, true);
         $request->session()->regenerate();
 
-        return redirect()->route('studio.canvas')->with('success', '¡Tu Estudio Códice ha sido creado exitosamente!');
+        return redirect()->route('studio.canvas')->with('success', '¡Tu Estudio Cóice ha sido creado exitosamente!');
     }
 
     /**

@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
                 'tagline' => 'Un compendio ciberpunk narrativo y cartografía de facciones interconectadas.',
                 'description' => 'Neo-Kyoto, año 2094. Las megacorporaciones controlan las redes de memoria sintética mientras facciones disidentes conspiran en los muelles y callejones inundados del Distrito 4.',
                 'settings' => [
-                    'theme' => 'Estudio Códice',
+                    'theme' => 'Estudio Cóice',
                     'font_headline' => 'Newsreader',
                     'font_body' => 'Inter',
                     'font_label' => 'Plus Jakarta Sans',

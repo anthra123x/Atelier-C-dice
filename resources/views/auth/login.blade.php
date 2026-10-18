@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Iniciar Sesión — Estudio Códice</title>
+    <title>Iniciar Sesión — Estudio Cóice</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -89,7 +89,7 @@
                     <div class="flex items-center justify-between pb-3 mb-6 border-b border-border-subtle/50">
                         <div class="flex items-center gap-2">
                             <span class="font-headline text-[17px] text-text-primary font-medium tracking-tight">Estudio</span>
-                            <span class="text-accent-indigo font-normal tracking-wide">Códice</span>
+                            <span class="text-accent-indigo font-normal tracking-wide">Cóice</span>
                         </div>
                         <div class="flex items-center gap-2 text-text-muted text-[11px] font-label">
                             <span class="material-symbols-outlined text-[14px]">drag_indicator</span>
@@ -180,14 +180,14 @@
                         </div>
 
                         <button type="submit" class="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-lg bg-accent-indigo hover:bg-accent-indigo-hover text-white font-label text-xs font-semibold tracking-wide shadow-md shadow-accent-indigo/20 transition-all duration-150 active:scale-[0.99]">
-                            <span>Entrar a Estudio Códice</span>
+                            <span>Entrar a Estudio Cóice</span>
                             <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
                         </button>
                     </form>
 
                     <!-- Link to Register -->
                     <div class="mt-5 text-center font-body text-xs text-text-secondary">
-                        ¿Nuevo en Estudio Códice? 
+                        ¿Nuevo en Estudio Cóice? 
                         <a href="{{ route('register') }}" class="text-accent-indigo hover:underline ml-1 font-semibold">Crea tu cuenta</a>
                     </div>
 
@@ -281,7 +281,7 @@
                             “El desorden creativo necesita un lienzo con alma.”
                         </blockquote>
                         <div class="flex items-center justify-between text-text-muted text-[11px] pt-2 border-t border-border-subtle/40 font-label">
-                            <span>Estudio Códice</span>
+                            <span>Estudio Cóice</span>
                             <span>Borrador</span>
                         </div>
                     </div>
@@ -294,7 +294,7 @@
     <!-- Global Footer -->
     <footer class="w-full bg-surface-card/80 backdrop-blur-sm py-4 border-t border-border-subtle/50 relative z-30">
         <div class="w-full px-6 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-text-muted font-body text-xs">
-            <span>© Estudio Códice. The Spatial Canvas for Worldbuilders.</span>
+            <span>© Estudio Cóice. The Spatial Canvas for Worldbuilders.</span>
             <div class="flex items-center gap-6">
                 <a href="#" class="hover:text-text-primary transition-colors">Privacy Policy</a>
                 <a href="#" class="hover:text-text-primary transition-colors">Terms of Service</a>
@@ -427,7 +427,7 @@
         }
 
         function showForgotNotice() {
-            showToast('Para restablecer tu contraseña, introduce tu correo de autor o contacta a soporte técnico en Estudio Códice.', 'info');
+            showToast('Para restablecer tu contraseña, introduce tu correo de autor o contacta a soporte técnico en Estudio Cóice.', 'info');
         }
     </script>
 </body>

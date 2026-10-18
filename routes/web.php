@@ -12,7 +12,7 @@ Route::redirect('/register', '/registro');
 Route::post('/registro', [AuthController::class, 'register'])->name('register.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Estudio Códice Creative Workspace Routes
+// Estudio Cóice Creative Workspace Routes
 Route::get('/', function () {
     if (Auth::check()) {
         return redirect()->route('studio.canvas');

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Estudio Códice - Creative Canvas')</title>
+    <title>@yield('title', 'Estudio Cóice - Creative Canvas')</title>
 
     <!-- Google Fonts: Newsreader (headlines), Inter (body), Plus Jakarta Sans (labels) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,7 +25,7 @@
                     <div class="w-8 h-8 rounded-lg bg-accent-indigo text-white flex items-center justify-center font-headline font-bold text-lg shadow-sm group-hover:scale-105 transition-transform">
                         C
                     </div>
-                    <span class="font-label font-bold text-text-primary tracking-tight text-base">Estudio <span class="text-accent-indigo font-normal">Códice</span></span>
+                    <span class="font-label font-bold text-text-primary tracking-tight text-base">Estudio <span class="text-accent-indigo font-normal">Cóice</span></span>
                 </a>
                 <span class="text-border-strong select-none">/</span>
                 <div class="flex items-center gap-1.5 text-text-secondary font-label text-xs bg-surface-container-low px-2.5 py-1 rounded-lg border border-border-subtle">
@@ -126,17 +126,17 @@
         @yield('content')
     </main>
 
-    <!-- Códice AI Floating Trigger Button -->
+    <!-- Cóice AI Floating Trigger Button -->
     <div class="fixed bottom-6 right-6 z-40">
         <button id="codice-ai-toggle-btn" onclick="toggleCodiceAi()" 
                 class="flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-gradient-to-r from-accent-indigo via-indigo-600 to-purple-600 text-white font-label text-xs font-semibold shadow-[0_8px_25px_rgba(79,70,229,0.35)] hover:shadow-[0_12px_32px_rgba(79,70,229,0.5)] hover:scale-105 active:scale-95 transition-all group">
             <span class="material-symbols-outlined text-[19px] group-hover:rotate-12 transition-transform">psychology</span>
-            <span>Códice AI</span>
+            <span>Cóice AI</span>
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
         </button>
     </div>
 
-    <!-- Códice AI Interactive Assistant Drawer -->
+    <!-- Cóice AI Interactive Assistant Drawer -->
     <div id="codice-ai-drawer" class="hidden fixed bottom-6 right-6 z-50 w-[420px] max-w-[calc(100vw-32px)] h-[580px] max-h-[calc(100vh-100px)] bg-surface-card/95 backdrop-blur-2xl border border-border-subtle rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.22)] flex-col overflow-hidden transition-all duration-300">
         
         <!-- Drawer Header -->
@@ -147,13 +147,13 @@
                 </div>
                 <div>
                     <div class="flex items-center gap-2">
-                        <h4 class="font-label font-bold text-sm text-text-primary">Códice AI</h4>
+                        <h4 class="font-label font-bold text-sm text-text-primary">Cóice AI</h4>
                         <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-50 text-emerald-600 border border-emerald-200">Online</span>
                     </div>
                     <p class="font-body text-xs text-text-muted">Arquitecto Narrativo &amp; Generador de Nodos</p>
                 </div>
             </div>
-            <button onclick="toggleCodiceAi()" class="w-8 h-8 rounded-full flex items-center justify-center text-text-muted hover:text-text-primary hover:bg-surface-container-high transition-colors" title="Cerrar Códice AI">
+            <button onclick="toggleCodiceAi()" class="w-8 h-8 rounded-full flex items-center justify-center text-text-muted hover:text-text-primary hover:bg-surface-container-high transition-colors" title="Cerrar Cóice AI">
                 <span class="material-symbols-outlined text-[18px]">close</span>
             </button>
         </div>
@@ -173,14 +173,14 @@
 
         <!-- Chat / Ideas Messages Feed -->
         <div id="ai-chat-messages" class="flex-1 p-4 overflow-y-auto space-y-3 font-body text-xs">
-            <!-- Initial Welcome Message from Códice AI -->
+            <!-- Initial Welcome Message from Cóice AI -->
             <div class="flex gap-2.5 items-start">
                 <div class="w-6 h-6 rounded-lg bg-accent-indigo/10 text-accent-indigo flex-shrink-0 flex items-center justify-center font-bold text-[11px] mt-0.5">
                     AI
                 </div>
                 <div class="bg-surface-container-low border border-border-subtle rounded-2xl rounded-tl-sm px-3.5 py-2.5 text-text-secondary leading-relaxed max-w-[85%] shadow-xs">
                     <p class="font-semibold text-text-primary mb-1">¡Saludos, Creador!</p>
-                    <p>Soy el Arquitecto Narrativo de Códice. Puedo forjar personajes rivales, describir sectores clandestinos de Neo-Kyoto o redactar notas de campo e insertarlas directamente en tu lienzo interactivo.</p>
+                    <p>Soy el Arquitecto Narrativo de Cóice. Puedo forjar personajes rivales, describir sectores clandestinos de Neo-Kyoto o redactar notas de campo e insertarlas directamente en tu lienzo interactivo.</p>
                 </div>
             </div>
 
@@ -261,7 +261,7 @@
             }, 3000);
         };
 
-        // Códice AI Toggle Drawer
+        // Cóice AI Toggle Drawer
         function toggleCodiceAi() {
             const drawer = document.getElementById('codice-ai-drawer');
             const toggleBtn = document.getElementById('codice-ai-toggle-btn');
@@ -415,7 +415,7 @@
                     }
                 }
             } catch (err) {
-                console.error('Error Códice AI:', err);
+                console.error('Error Cóice AI:', err);
                 appendAiMessage('assistant', 'Error de conexión con el agente neuronal. Verifica tu red.');
             } finally {
                 input.disabled = false;

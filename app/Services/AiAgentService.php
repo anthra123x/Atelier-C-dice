@@ -25,7 +25,7 @@ class AiAgentService
      */
     public function chat(string $prompt, ?string $context = null): string
     {
-        $systemPrompt = 'Eres el Arquitecto Narrativo de Códice (Códice AI), un agente de inteligencia artificial especializado en worldbuilding, creación de tramas, dossiers de personajes y cartografía espacial ciberpunk y fantástica. Responde en español con tono evocador, analítico, profesional y conciso.';
+        $systemPrompt = 'Eres el Arquitecto Narrativo de Cóice (Cóice AI), un agente de inteligencia artificial especializado en worldbuilding, creación de tramas, dossiers de personajes y cartografía espacial ciberpunk y fantástica. Responde en español con tono evocador, analítico, profesional y conciso.';
 
         if ($context) {
             $systemPrompt .= "\nContexto actual del universo:\n".$context;
@@ -36,7 +36,7 @@ class AiAgentService
                 'Authorization' => 'Bearer '.$this->apiKey,
                 'Content-Type' => 'application/json',
                 'HTTP-Referer' => config('app.url', 'http://localhost:8000'),
-                'X-Title' => 'Estudio Codice',
+                'X-Title' => 'Estudio Coice',
             ])->timeout(30)->post($this->baseUrl.'/chat/completions', [
                 'model' => $this->model,
                 'messages' => [
@@ -62,7 +62,7 @@ class AiAgentService
 
             Log::warning('OpenRouter API Response Error: '.$response->body());
 
-            return 'Lo siento, no pude conectar con el núcleo neuronal de Códice en este momento. Inténtalo de nuevo.';
+            return 'Lo siento, no pude conectar con el núcleo neuronal de Cóice en este momento. Inténtalo de nuevo.';
         } catch (\Throwable $e) {
             Log::error('OpenRouter Exception: '.$e->getMessage());
 
@@ -97,9 +97,9 @@ class AiAgentService
 
         // Fallback structure if model returns plain text
         return [
-            'title' => 'Sugerencia de Códice AI: '.substr($prompt, 0, 40),
+            'title' => 'Sugerencia de Cóice AI: '.substr($prompt, 0, 40),
             'content' => $rawResponse,
-            'tags' => ['CódiceAI', 'Generado'],
+            'tags' => ['CóiceAI', 'Generado'],
         ];
     }
 }

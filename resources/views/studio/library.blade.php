@@ -1,6 +1,6 @@
 @extends('layouts.studio')
 
-@section('title', 'Biblioteca de Recursos y Playlists - Estudio Códice')
+@section('title', 'Biblioteca de Recursos y Playlists - Estudio Cóice')
 @section('view_label', 'Biblioteca & Playlists')
 
 @section('content')

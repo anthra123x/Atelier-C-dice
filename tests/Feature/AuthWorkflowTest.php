@@ -16,12 +16,12 @@ class AuthWorkflowTest extends TestCase
         $loginRes = $this->get(route('login'));
         $loginRes->assertOk()
             ->assertSee('Bienvenido de vuelta')
-            ->assertSee('Entrar a Estudio Códice');
+            ->assertSee('Entrar a Estudio Cóice');
 
         $registerRes = $this->get(route('register'));
         $registerRes->assertOk()
             ->assertSee('Empieza a construir tus universos')
-            ->assertSee('Crear mi Estudio Códice');
+            ->assertSee('Crear mi Estudio Cóice');
     }
 
     public function test_user_can_login_with_valid_credentials(): void

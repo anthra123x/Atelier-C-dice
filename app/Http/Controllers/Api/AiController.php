@@ -49,7 +49,7 @@ class AiController extends Controller
         $element = $this->aiService->generateElement($type, $validated['prompt']);
 
         // Format data based on node type
-        $title = $element['title'] ?? $element['name'] ?? 'Elemento Códice AI';
+        $title = $element['title'] ?? $element['name'] ?? 'Elemento Cóice AI';
         $nodeData = match ($type) {
             'character' => [
                 'name' => $element['name'] ?? $title,
@@ -67,7 +67,7 @@ class AiController extends Controller
             ],
             default => [
                 'body' => $element['content'] ?? 'Contenido generado por IA.',
-                'tags' => $element['tags'] ?? ['CódiceAI'],
+                'tags' => $element['tags'] ?? ['CóiceAI'],
                 'category' => 'NOTA DE CAMPO',
             ]
         };
@@ -84,7 +84,7 @@ class AiController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Elemento creado e insertado en el lienzo por Códice AI.',
+            'message' => 'Elemento creado e insertado en el lienzo por Cóice AI.',
             'data' => new CanvasNodeResource($node),
         ], 201);
     }
