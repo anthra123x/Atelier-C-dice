@@ -122,30 +122,30 @@
                 </div>
             </div>
 
-            <!-- CENTRAL FLOATING SIGN-UP PANEL (Stitch Design) -->
-            <div class="draggable-card relative z-30 w-full max-w-xl my-6 transition-transform duration-200" id="register-window-card">
+            <!-- CENTRAL FLOATING SIGN-UP PANEL (Stitch Design - Simplified) -->
+            <div class="draggable-card relative z-30 w-full max-w-[480px] my-6 transition-transform duration-200" id="register-window-card">
                 <div class="bg-surface-card rounded-2xl shadow-[0_20px_50px_rgba(27,27,31,0.08),0_1px_3px_rgba(0,0,0,0.05)] border border-border-subtle p-6 sm:p-8 relative overflow-hidden backdrop-blur-md">
                     
-                    <!-- Card Top Tag -->
-                    <div class="flex flex-col gap-1 mb-5">
-                        <div class="flex items-center justify-between gap-2 flex-wrap">
-                            <div class="flex items-center gap-2">
-                                <div class="w-6 h-6 rounded-md bg-text-primary text-white flex items-center justify-center shadow-sm">
-                                    <span class="material-symbols-outlined text-[15px]">view_quilt</span>
-                                </div>
-                                <span class="font-label text-xs tracking-tight text-text-primary font-semibold">Atelier Canvas</span>
-                            </div>
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container text-text-secondary font-label text-[11px] border border-border-subtle">
-                                <span class="w-1.5 h-1.5 rounded-full bg-accent-sage animate-pulse"></span>
-                                Acceso anticipado gratuito
-                            </span>
+                    <!-- Card Drag Header -->
+                    <div class="flex items-center justify-between pb-3 mb-5 border-b border-border-subtle/50">
+                        <div class="flex items-center gap-2">
+                            <span class="font-headline text-[17px] text-text-primary font-medium tracking-tight">Atelier</span>
+                            <span class="text-text-muted text-[11px] font-mono tracking-wider uppercase">Canvas</span>
                         </div>
+                        <div class="flex items-center gap-2 text-text-muted text-[11px] font-label">
+                            <span class="material-symbols-outlined text-[14px]">drag_indicator</span>
+                            <span>Mover</span>
+                            <span class="w-1.5 h-1.5 rounded-full bg-accent-sage"></span>
+                        </div>
+                    </div>
 
-                        <h1 class="font-headline text-2xl sm:text-3xl text-text-primary tracking-tight mt-2 font-normal">
+                    <!-- Welcome Title -->
+                    <div class="space-y-1 mb-5">
+                        <h1 class="font-headline text-2xl sm:text-3xl text-text-primary tracking-tight font-normal">
                             Empieza a construir tus universos
                         </h1>
                         <p class="font-body text-xs text-text-secondary leading-relaxed">
-                            El espacio de trabajo espacial para tus fichas narrativas, mapas interconectados y atmósferas.
+                            Crea tu cuenta para acceder a tu lienzo creativo.
                         </p>
                     </div>
 
@@ -184,88 +184,47 @@
                     </div>
 
                     <!-- Real Registration Form -->
-                    <form action="{{ route('register.post') }}" method="POST" class="space-y-3.5">
+                    <form action="{{ route('register.post') }}" method="POST" class="space-y-4">
                         @csrf
+                        <input type="hidden" name="creative_role" value="Autor / Diseñador">
+
                         <div>
-                            <div class="flex items-center justify-between mb-1">
-                                <label class="font-label text-[11px] uppercase tracking-wider text-text-secondary flex items-center gap-1" for="name">
-                                    <span class="material-symbols-outlined text-[14px] text-text-muted">badge</span>
-                                    Nombre completo o seudónimo
-                                </label>
-                                <span class="font-label text-[10px] text-text-muted">Público</span>
-                            </div>
+                            <label class="block font-label text-[11px] uppercase tracking-wider text-text-secondary mb-1" for="name">
+                                Nombre completo o seudónimo
+                            </label>
                             <input type="text" id="name" name="name" value="{{ old('name') }}" required
-                                   class="w-full px-3.5 py-2 rounded-lg bg-surface-card border border-border-subtle text-text-primary font-body text-xs transition-all focus:border-text-primary focus:outline-none focus:ring-1 focus:ring-text-primary placeholder:text-text-muted shadow-sm"
+                                   class="w-full px-3.5 py-2.5 rounded-lg bg-surface-card border border-border-subtle text-text-primary font-body text-xs transition-all focus:border-accent-indigo focus:outline-none focus:ring-1 focus:ring-accent-indigo/20 placeholder:text-text-muted shadow-sm"
                                    placeholder="p. ej. Aurelio Vance">
                         </div>
 
                         <div>
-                            <label class="font-label text-[11px] uppercase tracking-wider text-text-secondary flex items-center gap-1 mb-1" for="email">
-                                <span class="material-symbols-outlined text-[14px] text-text-muted">mail</span>
+                            <label class="block font-label text-[11px] uppercase tracking-wider text-text-secondary mb-1" for="email">
                                 Correo electrónico
                             </label>
                             <input type="email" id="email" name="email" value="{{ old('email') }}" required
-                                   class="w-full px-3.5 py-2 rounded-lg bg-surface-card border border-border-subtle text-text-primary font-body text-xs transition-all focus:border-text-primary focus:outline-none focus:ring-1 focus:ring-text-primary placeholder:text-text-muted shadow-sm"
+                                   class="w-full px-3.5 py-2.5 rounded-lg bg-surface-card border border-border-subtle text-text-primary font-body text-xs transition-all focus:border-accent-indigo focus:outline-none focus:ring-1 focus:ring-accent-indigo/20 placeholder:text-text-muted shadow-sm"
                                    placeholder="tu@dominio.com">
                         </div>
 
                         <div>
-                            <div class="flex items-center justify-between mb-1">
-                                <label class="font-label text-[11px] uppercase tracking-wider text-text-secondary flex items-center gap-1" for="password">
-                                    <span class="material-symbols-outlined text-[14px] text-text-muted">key</span>
-                                    Contraseña
-                                </label>
-                                <span class="font-label text-[10px] text-text-muted">Seguridad</span>
-                            </div>
+                            <label class="block font-label text-[11px] uppercase tracking-wider text-text-secondary mb-1" for="password">
+                                Contraseña
+                            </label>
                             <div class="relative">
-                                <input type="password" id="password" name="password" required
-                                       class="w-full pl-3.5 pr-10 py-2 rounded-lg bg-surface-card border border-border-subtle text-text-primary font-body text-xs transition-all focus:border-text-primary focus:outline-none focus:ring-1 focus:ring-text-primary placeholder:text-text-muted shadow-sm"
-                                       placeholder="Crea una clave maestra...">
+                                <input type="password" id="password" name="password" required minlength="8"
+                                       class="w-full pl-3.5 pr-10 py-2.5 rounded-lg bg-surface-card border border-border-subtle text-text-primary font-body text-xs transition-all focus:border-accent-indigo focus:outline-none focus:ring-1 focus:ring-accent-indigo/20 placeholder:text-text-muted shadow-sm"
+                                       placeholder="Mínimo 8 caracteres">
                                 <button type="button" id="toggle-password-btn" aria-label="Alternar visibilidad" 
                                         class="absolute inset-y-0 right-0 pr-3 flex items-center text-text-muted hover:text-text-primary transition-colors">
                                     <span class="material-symbols-outlined text-[17px]" id="password-icon">visibility</span>
                                 </button>
                             </div>
-
-                            <!-- Requirements pills -->
-                            <div class="flex items-center gap-2 mt-1.5 flex-wrap font-label text-[10px] text-text-muted">
-                                <span class="flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container">
-                                    <span class="w-1 h-1 rounded-full bg-accent-sage"></span> 8+ caracteres
-                                </span>
-                                <span class="flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container">
-                                    <span class="w-1 h-1 rounded-full bg-accent-sage"></span> Un número
-                                </span>
-                                <span class="flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container">
-                                    <span class="w-1 h-1 rounded-full bg-accent-sage"></span> Un símbolo (@!#$)
-                                </span>
-                            </div>
                         </div>
 
-                        <!-- Focus question pills -->
-                        <div class="pt-1">
-                            <label class="block font-label text-[11px] uppercase tracking-wider text-text-secondary mb-1.5">
-                                ¿Cuál es tu enfoque principal? (Opcional)
-                            </label>
-                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5" id="focus-pills">
-                                <button type="button" onclick="selectFocus(this, 'Escritor')" class="focus-pill px-2.5 py-1 rounded-md text-[11px] font-label font-medium bg-surface-container text-text-secondary hover:text-text-primary border border-border-subtle transition-all text-center">
-                                    Escritor
-                                </button>
-                                <button type="button" onclick="selectFocus(this, 'Director de Rol / DM')" class="focus-pill px-2.5 py-1 rounded-md text-[11px] font-label font-medium bg-surface-container text-text-secondary hover:text-text-primary border border-border-subtle transition-all text-center">
-                                    Director Rol
-                                </button>
-                                <button type="button" onclick="selectFocus(this, 'Guionista')" class="focus-pill px-2.5 py-1 rounded-md text-[11px] font-label font-medium bg-surface-container text-text-secondary hover:text-text-primary border border-border-subtle transition-all text-center">
-                                    Guionista
-                                </button>
-                                <button type="button" onclick="selectFocus(this, 'Diseñador de Juegos')" class="focus-pill px-2.5 py-1 rounded-md text-[11px] font-label font-medium bg-surface-container text-text-secondary hover:text-text-primary border border-border-subtle transition-all text-center">
-                                    Game Design
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-2 pt-1">
-                            <input type="checkbox" id="terms" required checked class="mt-0.5 w-3.5 h-3.5 rounded text-text-primary focus:ring-0 bg-surface-container border border-border-subtle cursor-pointer">
-                            <label for="terms" class="font-body text-[11px] text-text-secondary leading-tight cursor-pointer">
-                                Acepto los <a href="#" class="underline hover:text-text-primary">Términos</a> y confirmo que he leído la <a href="#" class="underline hover:text-text-primary">Política de Privacidad</a>.
+                        <div class="flex items-center gap-2 pt-1">
+                            <input type="checkbox" id="terms" required checked class="w-3.5 h-3.5 rounded text-accent-indigo focus:ring-0 bg-surface-container border border-border-subtle cursor-pointer">
+                            <label for="terms" class="font-body text-[11px] text-text-secondary leading-tight cursor-pointer select-none">
+                                Acepto los <a href="#" class="underline hover:text-text-primary">Términos</a> y la <a href="#" class="underline hover:text-text-primary">Política de Privacidad</a>.
                             </label>
                         </div>
 
@@ -279,19 +238,6 @@
                     <div class="mt-4 text-center font-body text-xs text-text-secondary">
                         ¿Ya tienes cuenta? 
                         <a href="{{ route('login') }}" class="text-accent-indigo hover:underline ml-1 font-semibold">Inicia sesión</a>
-                    </div>
-
-                    <!-- Social proof bar -->
-                    <div class="mt-5 pt-4 border-t border-border-subtle/50 flex items-center justify-between text-text-muted text-[11px] font-label">
-                        <div class="flex items-center gap-2">
-                            <div class="flex -space-x-1.5 overflow-hidden">
-                                <span class="inline-block h-5 w-5 rounded-full ring-1 ring-white bg-accent-indigo text-[9px] text-white flex items-center justify-center font-bold">KV</span>
-                                <span class="inline-block h-5 w-5 rounded-full ring-1 ring-white bg-accent-terracotta text-[9px] text-white flex items-center justify-center font-bold">HA</span>
-                                <span class="inline-block h-5 w-5 rounded-full ring-1 ring-white bg-accent-sage text-[9px] text-white flex items-center justify-center font-bold">MR</span>
-                            </div>
-                            <span>Más de 15,000 creadores de mundos</span>
-                        </div>
-                        <span class="text-accent-sage font-medium">Global ●</span>
                     </div>
 
                 </div>
@@ -327,16 +273,6 @@
                 });
             }
         })();
-
-        // Focus pills selector
-        function selectFocus(btn, role) {
-            document.querySelectorAll('.focus-pill').forEach(b => {
-                b.classList.remove('bg-text-primary', 'text-white', 'border-transparent');
-                b.classList.add('bg-surface-container', 'text-text-secondary', 'border-border-subtle');
-            });
-            btn.classList.remove('bg-surface-container', 'text-text-secondary', 'border-border-subtle');
-            btn.classList.add('bg-text-primary', 'text-white', 'border-transparent');
-        }
 
         // Draggable floating cards
         (function initDraggableCards() {
