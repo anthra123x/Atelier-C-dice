@@ -22,6 +22,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Default Author User for Estudio Cóice
+        User::query()->firstOrCreate(
+            ['email' => 'autor@estudio.com'],
+            [
+                'name' => 'Autor de Cóice',
+                'password' => Hash::make('password123'),
+            ]
+        );
+
         // Default Admin User
         $user = User::query()->firstOrCreate(
             ['email' => 'admin@codice.local'],
