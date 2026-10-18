@@ -1,6 +1,6 @@
 @extends('layouts.studio')
 
-@section('title', 'Mapas y Locaciones con Point Marks - Estudio Cóice')
+@section('title', 'Cartografía y Mapas - Estudio Cóice')
 @section('view_label', 'Cartografía & Point Marks')
 
 @section('content')
@@ -9,7 +9,7 @@
     <!-- Sector Filter Floating Pill Bar -->
     <div class="absolute top-6 left-8 z-30 flex items-center gap-2 bg-surface-card/90 backdrop-blur-xl px-3 py-1.5 rounded-full border border-border-subtle shadow-md">
         <span class="material-symbols-outlined text-accent-indigo text-[18px]">explore</span>
-        <span class="font-label text-xs font-bold text-text-primary mr-1">Sectores:</span>
+        <span class="font-label text-xs font-bold text-text-primary mr-1">Cartografía:</span>
         <a href="{{ route('studio.maps') }}" 
            class="px-2.5 py-1 rounded-full font-label text-[11px] transition-all {{ empty($selectedSector) ? 'bg-text-primary text-white font-semibold' : 'text-text-secondary hover:text-text-primary' }}">
             Todos
@@ -306,7 +306,7 @@
 
             if (res.ok) {
                 closeLocationModal();
-                showToast('Pin registrado en PostgreSQL Neon', 'success');
+                showToast('Pin de locación registrado con éxito', 'success');
                 setTimeout(() => location.reload(), 600);
             }
         } catch (err) {

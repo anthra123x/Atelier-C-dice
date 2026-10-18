@@ -18,8 +18,8 @@
 
     <!-- Top Navigation Header -->
     <header class="fixed top-0 left-0 right-0 z-40 bg-surface-card/90 backdrop-blur-xl border-b border-border-subtle shadow-[0_1px_8px_rgba(0,0,0,0.03)]">
-        <div class="h-16 w-full px-6 flex items-center justify-between gap-4">
-            <!-- Brand & Breadcrumbs -->
+        <div class="h-16 w-full px-4 sm:px-6 flex items-center justify-between gap-4">
+            <!-- Brand & Active Universe -->
             <div class="flex items-center gap-3 flex-shrink-0">
                 <a href="{{ route('studio.canvas') }}" class="flex items-center gap-2 group">
                     <div class="w-8 h-8 rounded-lg bg-accent-indigo text-white flex items-center justify-center font-headline font-bold text-lg shadow-sm group-hover:scale-105 transition-transform">
@@ -27,92 +27,74 @@
                     </div>
                     <span class="font-label font-bold text-text-primary tracking-tight text-base">Estudio <span class="text-accent-indigo font-normal">Cóice</span></span>
                 </a>
-                <span class="text-border-strong select-none">/</span>
-                <div class="flex items-center gap-1.5 text-text-secondary font-label text-xs bg-surface-container-low px-2.5 py-1 rounded-lg border border-border-subtle">
-                    <span class="hover:text-text-primary font-medium cursor-pointer transition-colors">{{ $universe->title ?? 'Crónicas de Neo-Kyoto' }}</span>
-                    <span class="text-border-strong select-none">/</span>
-                    <span class="font-semibold text-text-primary">@yield('view_label', 'Tablero Principal')</span>
+                <span class="text-border-subtle select-none font-light">/</span>
+                <div class="flex items-center gap-1.5 text-text-secondary font-label text-xs">
+                    <span class="w-1.5 h-1.5 rounded-full bg-accent-sage"></span>
+                    <span class="font-medium truncate max-w-[140px] sm:max-w-[200px]" title="{{ $universe->title ?? 'Crónicas de Neo-Kyoto' }}">{{ $universe->title ?? 'Crónicas de Neo-Kyoto' }}</span>
                 </div>
             </div>
 
-            <!-- Central Nav Tabs -->
-            <nav class="hidden md:flex items-center gap-1 bg-surface-container-low p-1 rounded-xl border border-border-subtle font-label text-xs">
+            <!-- Central Nav Tabs (Segmented Control with Icons) -->
+            <nav class="hidden md:flex items-center gap-1 bg-surface-container-low/70 p-1 rounded-xl border border-border-subtle font-label text-xs">
                 <a href="{{ route('studio.canvas') }}" 
-                   class="px-4 py-1.5 rounded-lg transition-all {{ ($currentModule ?? '') === 'canvas' ? 'bg-accent-indigo text-white shadow-sm font-semibold' : 'text-text-secondary hover:text-text-primary hover:bg-surface-card' }}">
-                    Lienzo Creativo
+                   class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all {{ ($currentModule ?? '') === 'canvas' ? 'bg-accent-indigo text-white shadow-xs font-semibold' : 'text-text-secondary hover:text-text-primary hover:bg-surface-card' }}">
+                    <span class="material-symbols-outlined text-[16px]">space_dashboard</span>
+                    <span>Lienzo</span>
                 </a>
                 <a href="{{ route('studio.maps') }}" 
-                   class="px-4 py-1.5 rounded-lg transition-all {{ ($currentModule ?? '') === 'maps' ? 'bg-accent-indigo text-white shadow-sm font-semibold' : 'text-text-secondary hover:text-text-primary hover:bg-surface-card' }}">
-                    Mapas y Locaciones
+                   class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all {{ ($currentModule ?? '') === 'maps' ? 'bg-accent-indigo text-white shadow-xs font-semibold' : 'text-text-secondary hover:text-text-primary hover:bg-surface-card' }}">
+                    <span class="material-symbols-outlined text-[16px]">map</span>
+                    <span>Mapas</span>
                 </a>
                 <a href="{{ route('studio.characters') }}" 
-                   class="px-4 py-1.5 rounded-lg transition-all {{ ($currentModule ?? '') === 'characters' ? 'bg-accent-indigo text-white shadow-sm font-semibold' : 'text-text-secondary hover:text-text-primary hover:bg-surface-card' }}">
-                    Fichas de Personajes
+                   class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all {{ ($currentModule ?? '') === 'characters' ? 'bg-accent-indigo text-white shadow-xs font-semibold' : 'text-text-secondary hover:text-text-primary hover:bg-surface-card' }}">
+                    <span class="material-symbols-outlined text-[16px]">group</span>
+                    <span>Personajes</span>
                 </a>
                 <a href="{{ route('studio.library') }}" 
-                   class="px-4 py-1.5 rounded-lg transition-all {{ ($currentModule ?? '') === 'library' ? 'bg-accent-indigo text-white shadow-sm font-semibold' : 'text-text-secondary hover:text-text-primary hover:bg-surface-card' }}">
-                    Biblioteca &amp; Playlists
+                   class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all {{ ($currentModule ?? '') === 'library' ? 'bg-accent-indigo text-white shadow-xs font-semibold' : 'text-text-secondary hover:text-text-primary hover:bg-surface-card' }}">
+                    <span class="material-symbols-outlined text-[16px]">auto_stories</span>
+                    <span>Biblioteca</span>
                 </a>
             </nav>
 
-            <!-- Zoom, Collaborators & Profile -->
+            <!-- Collaborators & Profile Hub -->
             <div class="flex items-center gap-3 flex-shrink-0">
-                <!-- Zoom Controls -->
-                <div class="hidden sm:flex items-center bg-surface-container-low rounded-lg p-0.5 border border-border-subtle text-text-secondary">
-                    <button id="zoom-out-btn" class="w-7 h-7 flex items-center justify-center hover:bg-surface-card hover:text-text-primary rounded transition-colors" title="Reducir zoom">
-                        <span class="material-symbols-outlined text-[16px]">remove</span>
-                    </button>
-                    <span id="zoom-val-text" class="px-2 font-label text-xs text-text-primary select-none font-semibold">100%</span>
-                    <button id="zoom-in-btn" class="w-7 h-7 flex items-center justify-center hover:bg-surface-card hover:text-text-primary rounded transition-colors" title="Aumentar zoom">
-                        <span class="material-symbols-outlined text-[16px]">add</span>
-                    </button>
-                </div>
-
-                <!-- Database status badge -->
-                <div class="hidden lg:flex items-center gap-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 px-2.5 py-1 rounded-full font-label text-[11px]">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span>Postgres Neon Online</span>
-                </div>
-
-                <!-- Active Collaborators -->
-                <div class="flex items-center -space-x-1.5 pl-1">
+                <!-- Active Collaborators Stack -->
+                <div class="hidden sm:flex items-center -space-x-1.5">
                     @forelse($collaborators ?? [] as $collab)
-                        <div class="w-7 h-7 rounded-full flex items-center justify-center font-label text-[10px] font-bold text-white ring-2 ring-surface-card shadow-sm cursor-help"
+                        <div class="w-6 h-6 rounded-full flex items-center justify-center font-label text-[9px] font-bold text-white ring-2 ring-surface-card shadow-xs cursor-help transition-transform hover:scale-110 hover:z-10"
                              style="background-color: {{ $collab->color }};"
                              title="{{ $collab->name }} ({{ $collab->role }})">
                             {{ $collab->initials }}
                         </div>
                     @empty
-                        <div class="w-7 h-7 rounded-full bg-accent-terracotta text-white flex items-center justify-center font-label text-[10px] ring-2 ring-surface-card">AU</div>
-                        <div class="w-7 h-7 rounded-full bg-accent-sage text-white flex items-center justify-center font-label text-[10px] ring-2 ring-surface-card">RN</div>
+                        <div class="w-6 h-6 rounded-full bg-accent-terracotta text-white flex items-center justify-center font-label text-[9px] ring-2 ring-surface-card">AU</div>
                     @endforelse
                 </div>
 
-                <!-- User Profile & Auth Actions -->
+                <!-- User Profile & Logout -->
                 @auth
-                    <div class="flex items-center gap-2 pl-2 border-l border-border-subtle">
+                    <div class="flex items-center gap-2 pl-2 border-l border-border-subtle/80">
                         <div class="flex items-center gap-2" title="{{ Auth::user()->name }} ({{ Auth::user()->email }})">
-                            <div class="w-8 h-8 rounded-full bg-accent-indigo text-white flex items-center justify-center font-label font-bold text-xs shadow-sm">
+                            <div class="w-7 h-7 rounded-lg bg-accent-indigo text-white flex items-center justify-center font-label font-bold text-[11px] shadow-xs">
                                 {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
                             </div>
-                            <div class="hidden xl:flex flex-col text-left">
-                                <span class="font-label text-xs font-semibold text-text-primary leading-tight truncate max-w-[110px]">{{ Auth::user()->name }}</span>
-                                <span class="font-label text-[10px] text-text-muted leading-tight">Creador</span>
-                            </div>
+                            <span class="hidden lg:inline font-label text-xs font-medium text-text-primary truncate max-w-[120px]">{{ Auth::user()->name }}</span>
                         </div>
                         <form method="POST" action="{{ route('logout') }}" class="inline m-0">
                             @csrf
-                            <button type="submit" class="p-1.5 rounded-lg text-text-secondary hover:text-red-600 hover:bg-red-50 transition-colors flex items-center justify-center" title="Cerrar Sesión">
-                                <span class="material-symbols-outlined text-[18px]">logout</span>
+                            <button type="submit" class="w-7 h-7 rounded-lg text-text-secondary hover:text-red-600 hover:bg-red-50 transition-colors flex items-center justify-center cursor-pointer" title="Cerrar sesión">
+                                <span class="material-symbols-outlined text-[17px]">logout</span>
                             </button>
                         </form>
                     </div>
                 @else
-                    <div class="flex items-center gap-2 pl-2 border-l border-border-subtle">
+                    <div class="flex items-center gap-2 pl-2 border-l border-border-subtle/80">
                         <a href="{{ route('login') }}" class="font-label text-xs font-semibold px-3 py-1.5 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-container-low transition-colors">
                             Ingresar
                         </a>
-                        <a href="{{ route('register') }}" class="font-label text-xs font-semibold px-3 py-1.5 rounded-lg bg-accent-indigo text-white hover:bg-accent-indigo/90 transition-all shadow-sm">
+                        <a href="{{ route('register') }}" class="font-label text-xs font-semibold px-3 py-1.5 rounded-lg bg-accent-indigo text-white hover:bg-accent-indigo-hover transition-all shadow-xs">
                             Registrarse
                         </a>
                     </div>

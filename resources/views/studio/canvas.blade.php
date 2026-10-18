@@ -69,7 +69,10 @@
                     <span class="text-text-muted uppercase text-[11px]">Nodos:</span>
                     <span id="nodes-count-badge" class="font-bold text-text-primary">{{ count($board->nodes) }} activos</span>
                     <span class="w-1 h-3 bg-border-strong rounded-full"></span>
-                    <span class="text-accent-indigo font-medium">Sincronizado Neon DB</span>
+                    <span class="text-accent-indigo font-medium flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-accent-sage animate-pulse"></span>
+                        Guardado
+                    </span>
                 </div>
             </div>
         </div>
@@ -641,7 +644,7 @@
                 body: JSON.stringify({ pos_x: x, pos_y: y })
             });
             if (res.ok) {
-                showToast('Posición sincronizada en Neon DB', 'success');
+                showToast('Posición guardada en el lienzo', 'success');
             }
         } catch (err) {
             console.error('Error saving position:', err);

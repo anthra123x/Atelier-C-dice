@@ -233,7 +233,7 @@
 
             if (res.ok) {
                 closeCharacterModal();
-                showToast('Personaje creado en PostgreSQL Neon', 'success');
+                showToast('Ficha de personaje creada con éxito', 'success');
                 setTimeout(() => location.reload(), 600);
             }
         } catch (err) {
