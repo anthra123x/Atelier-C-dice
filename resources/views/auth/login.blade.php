@@ -117,6 +117,21 @@
                         </div>
                     @endif
 
+                    <!-- Quick Demo Credentials Box -->
+                    <div class="mb-5 p-3 rounded-xl bg-accent-indigo/5 border border-accent-indigo/20 flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-2.5">
+                            <span class="material-symbols-outlined text-[18px] text-accent-indigo">key</span>
+                            <div class="text-[11px] font-body text-text-secondary leading-tight">
+                                <span class="font-semibold text-text-primary block">Credenciales de prueba:</span>
+                                <span class="font-mono text-text-muted">autor@estudio.com · password123</span>
+                            </div>
+                        </div>
+                        <button type="button" onclick="fillDemoCredentials()" 
+                                class="flex-shrink-0 px-2.5 py-1 rounded-lg bg-accent-indigo hover:bg-accent-indigo-hover text-white text-[11px] font-label font-semibold shadow-xs transition-all active:scale-95 cursor-pointer">
+                            Autocompletar
+                        </button>
+                    </div>
+
                     <!-- Fast Social Buttons -->
                     <div class="grid grid-cols-2 gap-2 mb-5">
                         <button type="button" onclick="showSocialNotice('Google')" class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg bg-surface-card hover:bg-surface-container-low border border-border-subtle/70 transition-colors text-text-primary font-label text-xs font-semibold shadow-sm active:scale-95">
@@ -353,9 +368,12 @@
                         target.tagName === 'INPUT' ||
                         target.tagName === 'BUTTON' ||
                         target.tagName === 'A' ||
+                        target.tagName === 'LABEL' ||
                         target.closest('button') ||
                         target.closest('input') ||
-                        target.closest('a')
+                        target.closest('a') ||
+                        target.closest('label') ||
+                        target.closest('form')
                     ) {
                         return;
                     }
@@ -420,6 +438,16 @@
                 toast.classList.add('opacity-0', 'translate-y-2');
                 setTimeout(() => toast.remove(), 300);
             }, 3500);
+        }
+
+        function fillDemoCredentials() {
+            const emailInput = document.getElementById('email');
+            const passInput = document.getElementById('password');
+            if (emailInput && passInput) {
+                emailInput.value = 'autor@estudio.com';
+                passInput.value = 'password123';
+                showToast('Credenciales autocompletadas: autor@estudio.com', 'info');
+            }
         }
 
         function showSocialNotice(provider) {

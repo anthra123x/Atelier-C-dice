@@ -42,7 +42,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
-            return redirect()->intended(route('studio.canvas'))->with('success', '¡Bienvenido de vuelta a tu Estudio Cóice!');
+            return redirect()->route('studio.canvas')->with('success', '¡Bienvenido de vuelta a tu Estudio Cóice!');
         }
 
         return back()->withErrors([

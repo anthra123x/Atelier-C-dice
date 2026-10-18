@@ -290,9 +290,12 @@
                         target.tagName === 'INPUT' ||
                         target.tagName === 'BUTTON' ||
                         target.tagName === 'A' ||
+                        target.tagName === 'LABEL' ||
                         target.closest('button') ||
                         target.closest('input') ||
-                        target.closest('a')
+                        target.closest('a') ||
+                        target.closest('label') ||
+                        target.closest('form')
                     ) {
                         return;
                     }
